@@ -15,8 +15,8 @@
             height: 100%;
             overflow: hidden;
             font-family: Arial, sans-serif;
-            background: #212121;
-            color: #ececec;
+            background: #000;
+            color: #fff;
         }
 
         body {
@@ -27,32 +27,18 @@
             width: 260px;
             background: #171717;
             padding: 12px;
-            display: flex;
-            flex-direction: column;
             border-right: 1px solid #2f2f2f;
         }
 
         .new-chat {
             background: transparent;
-            color: #ececec;
+            color: white;
             border: 1px solid #3a3a3a;
             padding: 12px;
             border-radius: 10px;
+            width: 100%;
             text-align: left;
             cursor: pointer;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .sidebar-title {
-            font-size: 13px;
-            color: #b4b4b4;
-            margin: 10px 0;
-        }
-
-        .chat-history-item {
-            padding: 10px;
-            border-radius: 8px;
             font-size: 14px;
         }
 
@@ -62,6 +48,7 @@
             flex-direction: column;
             height: 100dvh;
             overflow: hidden;
+            background: #000;
         }
 
         .topbar {
@@ -69,7 +56,7 @@
             display: flex;
             align-items: center;
             padding: 0 20px;
-            border-bottom: 1px solid #2f2f2f;
+            border-bottom: 1px solid #1f1f1f;
             font-size: 18px;
             font-weight: bold;
             flex-shrink: 0;
@@ -78,14 +65,14 @@
         .chat-box {
             flex: 1;
             overflow-y: auto;
-            padding: 25px 20px;
+            padding: 24px;
             min-height: 0;
         }
 
         .welcome {
-            max-width: 750px;
-            margin: 80px auto 0;
             text-align: center;
+            margin-top: 100px;
+            color: white;
         }
 
         .welcome h1 {
@@ -94,64 +81,64 @@
         }
 
         .welcome p {
-            color: #b4b4b4;
+            color: #aaa;
         }
 
         .message-row {
             width: 100%;
-            margin-bottom: 22px;
-        }
-
-        .message-wrapper {
-            max-width: 750px;
-            margin: 0 auto;
             display: flex;
-            gap: 14px;
+            margin-bottom: 26px;
         }
 
-        .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            flex-shrink: 0;
-            font-size: 14px;
+        .user-row {
+            justify-content: flex-end;
         }
 
-        .user-avatar {
-            background: #10a37f;
+        .bot-row {
+            justify-content: flex-start;
         }
 
-        .bot-avatar {
-            background: #444654;
+        .user-message {
+            max-width: 70%;
+            background: #2f2f2f;
+            color: white;
+            padding: 14px 18px;
+            border-radius: 24px;
+            font-size: 16px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
-        .message {
+        .bot-message {
+            max-width: 75%;
+            color: white;
+            font-size: 17px;
             line-height: 1.6;
-            font-size: 15px;
             white-space: pre-wrap;
             word-wrap: break-word;
-            padding-top: 4px;
+        }
+
+        .typing {
+            color: #aaa;
+            font-style: italic;
         }
 
         .input-container {
-            padding: 15px 20px 18px;
-            background: #212121;
+            padding: 12px 18px calc(14px + env(safe-area-inset-bottom));
+            background: #000;
             flex-shrink: 0;
         }
 
         .input-box {
-            max-width: 750px;
+            max-width: 850px;
             margin: 0 auto;
             display: flex;
             align-items: center;
-            background: #303030;
-            border: 1px solid #4a4a4a;
-            border-radius: 16px;
-            padding: 8px;
+            background: #2f2f2f;
+            border: 1px solid #555;
+            border-radius: 28px;
+            padding: 6px;
         }
 
         input {
@@ -159,46 +146,35 @@
             background: transparent;
             border: none;
             outline: none;
-            color: #ececec;
-            font-size: 15px;
-            padding: 12px;
+            color: white;
+            font-size: 16px;
+            padding: 13px 14px;
         }
 
         input::placeholder {
-            color: #9b9b9b;
+            color: #aaa;
         }
 
         .send-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: #ececec;
-            color: #212121;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
             border: none;
-            cursor: pointer;
-            font-size: 18px;
+            background: white;
+            color: black;
+            font-size: 22px;
             font-weight: bold;
-        }
-
-        .footer-note {
-            text-align: center;
-            color: #8e8e8e;
-            font-size: 12px;
-            margin-top: 8px;
-        }
-
-        .typing {
-            color: #b4b4b4;
-            font-style: italic;
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                display: none;
-            }
-
             body {
                 display: block;
+            }
+
+            .sidebar {
+                display: none;
             }
 
             .main {
@@ -207,54 +183,55 @@
             }
 
             .topbar {
-                height: 48px;
+                height: 50px;
                 font-size: 16px;
-                padding: 0 15px;
+                padding: 0 16px;
             }
 
             .chat-box {
-                padding: 14px 12px;
+                padding: 18px 16px;
             }
 
             .welcome {
-                margin-top: 35px;
-                padding: 0 15px;
+                margin-top: 70px;
             }
 
             .welcome h1 {
-                font-size: 24px;
+                font-size: 25px;
             }
 
-            .message-wrapper {
-                gap: 10px;
+            .user-message {
+                max-width: 82%;
+                font-size: 16px;
+                padding: 13px 17px;
+                border-radius: 22px;
             }
 
-            .avatar {
-                width: 28px;
-                height: 28px;
-                font-size: 12px;
+            .bot-message {
+                max-width: 92%;
+                font-size: 16px;
             }
 
-            .message {
-                font-size: 14px;
+            .message-row {
+                margin-bottom: 24px;
             }
 
             .input-container {
-                padding: 8px 10px calc(10px + env(safe-area-inset-bottom));
+                padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
             }
 
             .input-box {
-                padding: 6px;
-                border-radius: 14px;
+                border-radius: 26px;
             }
 
             input {
-                font-size: 14px;
-                padding: 11px;
+                font-size: 16px;
+                padding: 12px;
             }
 
-            .footer-note {
-                display: none;
+            .send-btn {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -264,11 +241,10 @@
 
 <div class="sidebar">
     <button class="new-chat" onclick="clearChat()">+ New Chat</button>
-    <div class="sidebar-title">Recent</div>
-    <div class="chat-history-item">AI Chatbot Project</div>
 </div>
 
 <div class="main">
+
     <div class="topbar">AI Chatbot</div>
 
     <div id="chatBox" class="chat-box">
@@ -280,13 +256,11 @@
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="userInput" placeholder="Message AI Chatbot..." />
+            <input type="text" id="userInput" placeholder="Ask ChatGPT" />
             <button class="send-btn" id="sendBtn">↑</button>
         </div>
-        <div class="footer-note">
-            AI Chatbot may generate incorrect information. Verify important answers.
-        </div>
     </div>
+
 </div>
 
 <script>
@@ -294,7 +268,6 @@ const input = document.getElementById("userInput");
 const chatBox = document.getElementById("chatBox");
 const sendBtn = document.getElementById("sendBtn");
 
-// VERY IMPORTANT: prevents mobile keyboard from closing
 sendBtn.addEventListener("pointerdown", function(event) {
     event.preventDefault();
 });
@@ -311,17 +284,13 @@ input.addEventListener("keydown", function(event) {
 });
 
 function scrollToBottom() {
-    requestAnimationFrame(() => {
+    setTimeout(() => {
         chatBox.scrollTop = chatBox.scrollHeight;
-    });
+    }, 50);
 
     setTimeout(() => {
         chatBox.scrollTop = chatBox.scrollHeight;
-    }, 100);
-
-    setTimeout(() => {
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }, 300);
+    }, 250);
 }
 
 function keepKeyboardOpen() {
@@ -340,11 +309,8 @@ async function sendMessage() {
     removeWelcome();
 
     chatBox.innerHTML += `
-        <div class="message-row">
-            <div class="message-wrapper">
-                <div class="avatar user-avatar">U</div>
-                <div class="message">${message}</div>
-            </div>
+        <div class="message-row user-row">
+            <div class="user-message">${message}</div>
         </div>
     `;
 
@@ -354,11 +320,8 @@ async function sendMessage() {
     const typingId = "typing-" + Date.now();
 
     chatBox.innerHTML += `
-        <div class="message-row" id="${typingId}">
-            <div class="message-wrapper">
-                <div class="avatar bot-avatar">AI</div>
-                <div class="message typing">Thinking...</div>
-            </div>
+        <div class="message-row bot-row" id="${typingId}">
+            <div class="bot-message typing">Thinking...</div>
         </div>
     `;
 
@@ -378,11 +341,8 @@ async function sendMessage() {
         document.getElementById(typingId)?.remove();
 
         chatBox.innerHTML += `
-            <div class="message-row">
-                <div class="message-wrapper">
-                    <div class="avatar bot-avatar">AI</div>
-                    <div class="message">${data.reply}</div>
-                </div>
+            <div class="message-row bot-row">
+                <div class="bot-message">${data.reply}</div>
             </div>
         `;
 
@@ -393,11 +353,8 @@ async function sendMessage() {
         document.getElementById(typingId)?.remove();
 
         chatBox.innerHTML += `
-            <div class="message-row">
-                <div class="message-wrapper">
-                    <div class="avatar bot-avatar">AI</div>
-                    <div class="message">Error connecting to server</div>
-                </div>
+            <div class="message-row bot-row">
+                <div class="bot-message">Error connecting to server</div>
             </div>
         `;
 
