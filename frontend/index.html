@@ -44,10 +44,6 @@
             margin-bottom: 15px;
         }
 
-        .new-chat:hover {
-            background: #2f2f2f;
-        }
-
         .sidebar-title {
             font-size: 13px;
             color: #b4b4b4;
@@ -57,20 +53,13 @@
         .chat-history-item {
             padding: 10px;
             border-radius: 8px;
-            color: #ececec;
             font-size: 14px;
-            cursor: pointer;
-        }
-
-        .chat-history-item:hover {
-            background: #2f2f2f;
         }
 
         .main {
             flex: 1;
             display: flex;
             flex-direction: column;
-            height: 100vh;
             height: 100dvh;
             overflow: hidden;
         }
@@ -91,7 +80,6 @@
             overflow-y: auto;
             padding: 25px 20px;
             min-height: 0;
-            scroll-behavior: smooth;
         }
 
         .welcome {
@@ -107,7 +95,6 @@
 
         .welcome p {
             color: #b4b4b4;
-            font-size: 15px;
         }
 
         .message-row {
@@ -136,12 +123,10 @@
 
         .user-avatar {
             background: #10a37f;
-            color: white;
         }
 
         .bot-avatar {
             background: #444654;
-            color: white;
         }
 
         .message {
@@ -153,12 +138,9 @@
         }
 
         .input-container {
-            padding: 15px 20px 22px;
+            padding: 15px 20px 18px;
             background: #212121;
             flex-shrink: 0;
-            position: sticky;
-            bottom: 0;
-            z-index: 10;
         }
 
         .input-box {
@@ -186,23 +168,16 @@
             color: #9b9b9b;
         }
 
-        button {
-            border: none;
-            cursor: pointer;
-        }
-
         .send-btn {
             width: 38px;
             height: 38px;
             border-radius: 10px;
             background: #ececec;
             color: #212121;
+            border: none;
+            cursor: pointer;
             font-size: 18px;
             font-weight: bold;
-        }
-
-        .send-btn:hover {
-            background: white;
         }
 
         .footer-note {
@@ -218,17 +193,16 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                display: block;
-            }
-
             .sidebar {
                 display: none;
             }
 
+            body {
+                display: block;
+            }
+
             .main {
                 width: 100%;
-                height: 100vh;
                 height: 100dvh;
             }
 
@@ -251,10 +225,6 @@
                 font-size: 24px;
             }
 
-            .welcome p {
-                font-size: 14px;
-            }
-
             .message-wrapper {
                 gap: 10px;
             }
@@ -274,8 +244,8 @@
             }
 
             .input-box {
-                border-radius: 14px;
                 padding: 6px;
+                border-radius: 14px;
             }
 
             input {
@@ -299,10 +269,7 @@
 </div>
 
 <div class="main">
-
-    <div class="topbar">
-        AI Chatbot
-    </div>
+    <div class="topbar">AI Chatbot</div>
 
     <div id="chatBox" class="chat-box">
         <div class="welcome" id="welcomeBox">
@@ -314,39 +281,52 @@
     <div class="input-container">
         <div class="input-box">
             <input type="text" id="userInput" placeholder="Message AI Chatbot..." />
-            <button class="send-btn" onclick="sendMessage()">↑</button>
+            <button class="send-btn" id="sendBtn">↑</button>
         </div>
         <div class="footer-note">
             AI Chatbot may generate incorrect information. Verify important answers.
         </div>
     </div>
-
 </div>
 
 <script>
 const input = document.getElementById("userInput");
 const chatBox = document.getElementById("chatBox");
+const sendBtn = document.getElementById("sendBtn");
 
-function scrollToBottom() {
-    setTimeout(() => {
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }, 100);
-}
+// VERY IMPORTANT: prevents mobile keyboard from closing
+sendBtn.addEventListener("pointerdown", function(event) {
+    event.preventDefault();
+});
 
-function fixMobileKeyboardView() {
-    setTimeout(() => {
-        input.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        scrollToBottom();
-    }, 300);
-}
-
-input.addEventListener("focus", fixMobileKeyboardView);
+sendBtn.addEventListener("click", function() {
+    sendMessage();
+});
 
 input.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
+        event.preventDefault();
         sendMessage();
     }
 });
+
+function scrollToBottom() {
+    requestAnimationFrame(() => {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    setTimeout(() => {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 100);
+
+    setTimeout(() => {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 300);
+}
+
+function keepKeyboardOpen() {
+    input.focus({ preventScroll: true });
+}
 
 function removeWelcome() {
     const welcomeBox = document.getElementById("welcomeBox");
@@ -369,6 +349,7 @@ async function sendMessage() {
     `;
 
     input.value = "";
+    keepKeyboardOpen();
 
     const typingId = "typing-" + Date.now();
 
@@ -405,6 +386,7 @@ async function sendMessage() {
             </div>
         `;
 
+        keepKeyboardOpen();
         scrollToBottom();
 
     } catch (error) {
@@ -419,6 +401,7 @@ async function sendMessage() {
             </div>
         `;
 
+        keepKeyboardOpen();
         scrollToBottom();
     }
 }
@@ -430,7 +413,9 @@ function clearChat() {
             <p>Ask anything and get an AI-generated response.</p>
         </div>
     `;
+
     input.value = "";
+    keepKeyboardOpen();
     scrollToBottom();
 }
 </script>
