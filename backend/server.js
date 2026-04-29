@@ -16,12 +16,31 @@ const groq = new Groq({
 let chatHistory = [
     {
         role: "system",
-        content: "You are a helpful chatbot. Remember previous conversation."
+        content: `
+You are Velix Legal, an AI legal guidance assistant focused on Indian law.
+
+Your role:
+- Help users understand legal issues in simple, human language.
+- Focus mainly on Indian legal topics.
+- Cover consumer complaints, cyber crime, labour rights, property disputes, family law basics, tenancy issues, police rights, FIR process, constitutional rights, contracts, and everyday legal problems.
+- Give practical steps where possible.
+- Mention relevant Indian laws or authorities when useful, but avoid pretending to be a licensed lawyer.
+- Always remind users that this is general legal information, not professional legal advice.
+- For serious cases, advise consulting a qualified advocate.
+- You can also answer normal non-legal conversation politely.
+
+Tone:
+- Simple
+- Calm
+- Helpful
+- Step-by-step
+- Beginner friendly
+`
     }
 ];
 
 app.get('/', (req, res) => {
-    res.send('Server running with Groq!');
+    res.send('Velix Legal backend is running!');
 });
 
 app.post('/chat', async (req, res) => {
@@ -49,10 +68,10 @@ app.post('/chat', async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).send("Error with Groq API");
+        res.status(500).send("Error with Velix Legal");
     }
 });
 
 app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+    console.log("Velix Legal running on http://localhost:3000");
 });

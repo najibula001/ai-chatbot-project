@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Velix</title>
+    <title>Velix Legal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <style>
@@ -15,8 +15,8 @@
             height: 100%;
             overflow: hidden;
             font-family: Arial, sans-serif;
-            background: #000;
-            color: white;
+            background: #07110d;
+            color: #f3f4f6;
         }
 
         body {
@@ -28,19 +28,25 @@
             height: 100dvh;
             display: flex;
             flex-direction: column;
-            background: #000;
+            background: linear-gradient(180deg, #07110d 0%, #0b1f17 100%);
         }
 
         .header {
-            height: 56px;
+            height: 58px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid #222;
-            font-size: 20px;
+            border-bottom: 1px solid #1f3b2e;
+            font-size: 21px;
             font-weight: bold;
-            background: #000;
+            background: rgba(5, 15, 11, 0.95);
+            color: #d7dde0;
+        }
+
+        .header span {
+            color: #86efac;
+            margin-left: 6px;
         }
 
         .chat-box {
@@ -52,14 +58,14 @@
 
         .chat-inner {
             width: 100%;
-            max-width: 850px;
+            max-width: 880px;
             margin: 0 auto;
         }
 
         .welcome {
             text-align: center;
-            margin-top: 100px;
-            color: #ddd;
+            margin-top: 60px;
+            color: #e5e7eb;
         }
 
         .welcome h1 {
@@ -68,8 +74,31 @@
         }
 
         .welcome p {
-            color: #aaa;
+            color: #b7c2bd;
             font-size: 16px;
+        }
+
+        .quick-actions {
+            max-width: 760px;
+            margin: 28px auto 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .quick-btn {
+            background: rgba(18, 46, 34, 0.9);
+            border: 1px solid #2f5f49;
+            color: #e5e7eb;
+            padding: 14px;
+            border-radius: 14px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .quick-btn:hover {
+            background: #163d2d;
         }
 
         .message-row {
@@ -88,7 +117,7 @@
 
         .user-message {
             max-width: 70%;
-            background: #2f2f2f;
+            background: #1f3b2e;
             color: white;
             padding: 13px 18px;
             border-radius: 24px;
@@ -99,8 +128,8 @@
         }
 
         .bot-message {
-            max-width: 80%;
-            color: white;
+            max-width: 82%;
+            color: #f3f4f6;
             font-size: 16px;
             line-height: 1.7;
             white-space: pre-wrap;
@@ -108,18 +137,19 @@
         }
 
         .typing {
-            color: #aaa;
+            color: #a7b5af;
             font-style: italic;
         }
 
         .input-area {
             flex-shrink: 0;
             padding: 12px 16px 18px;
-            background: #000;
+            background: rgba(5, 15, 11, 0.98);
+            border-top: 1px solid #1f3b2e;
         }
 
         .input-inner {
-            max-width: 850px;
+            max-width: 880px;
             margin: 0 auto;
         }
 
@@ -127,8 +157,8 @@
             width: 100%;
             display: flex;
             align-items: center;
-            background: #2f2f2f;
-            border: 1px solid #555;
+            background: #10241b;
+            border: 1px solid #3b5f4e;
             border-radius: 28px;
             padding: 6px;
         }
@@ -144,7 +174,7 @@
         }
 
         input::placeholder {
-            color: #aaa;
+            color: #a7b5af;
         }
 
         .send-btn {
@@ -152,8 +182,8 @@
             height: 42px;
             border-radius: 50%;
             border: none;
-            background: white;
-            color: black;
+            background: #d7dde0;
+            color: #07110d;
             font-size: 22px;
             font-weight: bold;
             cursor: pointer;
@@ -163,7 +193,7 @@
         .footer-note {
             text-align: center;
             font-size: 12px;
-            color: #777;
+            color: #93a39b;
             margin-top: 8px;
         }
 
@@ -180,19 +210,26 @@
             }
 
             .welcome {
-                margin-top: 80px;
+                margin-top: 42px;
             }
 
             .welcome h1 {
-                font-size: 26px;
+                font-size: 25px;
             }
 
             .welcome p {
                 font-size: 14px;
             }
 
-            .message-row {
-                margin-bottom: 22px;
+            .quick-actions {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin-top: 22px;
+            }
+
+            .quick-btn {
+                padding: 13px;
+                font-size: 14px;
             }
 
             .user-message {
@@ -211,20 +248,6 @@
                 padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
             }
 
-            .input-box {
-                border-radius: 26px;
-            }
-
-            input {
-                font-size: 16px;
-                padding: 12px;
-            }
-
-            .send-btn {
-                width: 40px;
-                height: 40px;
-            }
-
             .footer-note {
                 display: none;
             }
@@ -236,13 +259,20 @@
 
 <div class="app">
 
-    <div class="header">Velix</div>
+    <div class="header">Velix <span>Legal ⚖️</span></div>
 
     <div id="chatBox" class="chat-box">
         <div class="chat-inner" id="chatInner">
             <div class="welcome" id="welcomeBox">
-                <h1>How can Velix help today?</h1>
-                <p>Ask anything. Velix is ready.</p>
+                <h1>Describe your legal issue</h1>
+                <p>Get simple legal guidance based on Indian law.</p>
+
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="quickMessage('I was cheated in an online payment. What legal steps can I take in India?')">💻 Cyber Crime Help</button>
+                    <button class="quick-btn" onclick="quickMessage('My employer has not paid my salary. What can I do legally in India?')">💼 Labour Rights</button>
+                    <button class="quick-btn" onclick="quickMessage('A shop sold me a defective product. How can I file a consumer complaint?')">🛒 Consumer Complaint</button>
+                    <button class="quick-btn" onclick="quickMessage('What should I do if police refuse to file my FIR?')">👮 Police / FIR Rights</button>
+                </div>
             </div>
         </div>
     </div>
@@ -250,10 +280,12 @@
     <div class="input-area">
         <div class="input-inner">
             <div class="input-box">
-                <input type="text" id="userInput" placeholder="Message Velix..." />
+                <input type="text" id="userInput" placeholder="Ask your legal question..." />
                 <button class="send-btn" id="sendBtn">↑</button>
             </div>
-            <div class="footer-note">Velix may generate inaccurate information. Verify important details.</div>
+            <div class="footer-note">
+                Velix Legal provides general legal information, not professional legal advice. Consult a qualified advocate for serious matters.
+            </div>
         </div>
     </div>
 
@@ -277,6 +309,11 @@ input.addEventListener("keydown", function(event) {
         sendMessage();
     }
 });
+
+function quickMessage(text) {
+    input.value = text;
+    sendMessage();
+}
 
 function removeWelcome() {
     const welcomeBox = document.getElementById("welcomeBox");
@@ -317,7 +354,7 @@ async function sendMessage() {
 
     chatInner.innerHTML += `
         <div class="message-row bot-row" id="${typingId}">
-            <div class="bot-message typing">Velix is thinking...</div>
+            <div class="bot-message typing">Velix Legal is reviewing your issue...</div>
         </div>
     `;
 
