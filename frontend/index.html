@@ -34,19 +34,41 @@
         .header {
             height: 58px;
             flex-shrink: 0;
-            display: flex;
+            display: grid;
+            grid-template-columns: 90px 1fr 90px;
             align-items: center;
-            justify-content: center;
             border-bottom: 1px solid #1f3b2e;
-            font-size: 21px;
-            font-weight: bold;
             background: rgba(5, 15, 11, 0.95);
             color: #d7dde0;
+            padding: 0 12px;
         }
 
-        .header span {
+        .header-title {
+            text-align: center;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .header-title span {
             color: #86efac;
-            margin-left: 6px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid #2f5f49;
+            color: #d7dde0;
+            border-radius: 10px;
+            padding: 8px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav-btn:hover {
+            background: #163d2d;
+        }
+
+        .right-btn {
+            justify-self: end;
         }
 
         .chat-box {
@@ -200,9 +222,17 @@
         @media (max-width: 768px) {
             .header {
                 height: 50px;
-                justify-content: flex-start;
-                padding-left: 16px;
-                font-size: 20px;
+                grid-template-columns: 70px 1fr 70px;
+                padding: 0 8px;
+            }
+
+            .header-title {
+                font-size: 18px;
+            }
+
+            .nav-btn {
+                font-size: 12px;
+                padding: 7px 8px;
             }
 
             .chat-box {
@@ -259,7 +289,11 @@
 
 <div class="app">
 
-    <div class="header">Velix <span>Legal ⚖️</span></div>
+    <div class="header">
+        <button class="nav-btn" onclick="goBack()">← Back</button>
+        <div class="header-title">Velix <span>Legal ⚖️</span></div>
+        <button class="nav-btn right-btn" onclick="newChat()">+ New</button>
+    </div>
 
     <div id="chatBox" class="chat-box">
         <div class="chat-inner" id="chatInner">
@@ -297,6 +331,8 @@ const chatBox = document.getElementById("chatBox");
 const chatInner = document.getElementById("chatInner");
 const sendBtn = document.getElementById("sendBtn");
 
+const BACKEND_URL = "https://ai-chatbot-project-1ku7.onrender.com";
+
 sendBtn.addEventListener("pointerdown", function(event) {
     event.preventDefault();
 });
@@ -309,6 +345,43 @@ input.addEventListener("keydown", function(event) {
         sendMessage();
     }
 });
+
+function homeScreen() {
+    chatInner.innerHTML = `
+        <div class="welcome" id="welcomeBox">
+            <h1>Describe your legal issue</h1>
+            <p>Get simple legal guidance based on Indian law.</p>
+
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="quickMessage('I was cheated in an online payment. What legal steps can I take in India?')">💻 Cyber Crime Help</button>
+                <button class="quick-btn" onclick="quickMessage('My employer has not paid my salary. What can I do legally in India?')">💼 Labour Rights</button>
+                <button class="quick-btn" onclick="quickMessage('A shop sold me a defective product. How can I file a consumer complaint?')">🛒 Consumer Complaint</button>
+                <button class="quick-btn" onclick="quickMessage('What should I do if police refuse to file my FIR?')">👮 Police / FIR Rights</button>
+            </div>
+        </div>
+    `;
+    input.value = "";
+    scrollToBottom();
+}
+
+async function resetBackendMemory() {
+    try {
+        await fetch(`${BACKEND_URL}/reset`, {
+            method: "POST"
+        });
+    } catch (error) {
+        console.log("Could not reset backend memory");
+    }
+}
+
+async function goBack() {
+    homeScreen();
+}
+
+async function newChat() {
+    await resetBackendMemory();
+    homeScreen();
+}
 
 function quickMessage(text) {
     input.value = text;
@@ -361,7 +434,7 @@ async function sendMessage() {
     scrollToBottom();
 
     try {
-        const response = await fetch("https://ai-chatbot-project-1ku7.onrender.com/chat", {
+        const response = await fetch(`${BACKEND_URL}/chat`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

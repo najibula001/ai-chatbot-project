@@ -13,10 +13,11 @@ const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY
 });
 
-let chatHistory = [
-    {
-        role: "system",
-        content: `
+function getDefaultHistory() {
+    return [
+        {
+            role: "system",
+            content: `
 You are Velix Legal, an AI legal guidance assistant focused on Indian law.
 
 Your role:
@@ -36,8 +37,11 @@ Tone:
 - Step-by-step
 - Beginner friendly
 `
-    }
-];
+        }
+    ];
+}
+
+let chatHistory = getDefaultHistory();
 
 app.get('/', (req, res) => {
     res.send('Velix Legal backend is running!');
@@ -70,6 +74,12 @@ app.post('/chat', async (req, res) => {
         console.error(error);
         res.status(500).send("Error with Velix Legal");
     }
+});
+
+// Reset chat memory
+app.post('/reset', (req, res) => {
+    chatHistory = getDefaultHistory();
+    res.json({ message: "Chat history reset successfully" });
 });
 
 app.listen(3000, () => {
