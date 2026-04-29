@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         html, body {
             margin: 0;
@@ -19,9 +17,7 @@
             color: #f3f4f6;
         }
 
-        body {
-            height: 100dvh;
-        }
+        body { height: 100dvh; }
 
         .app {
             width: 100%;
@@ -49,9 +45,7 @@
             font-weight: bold;
         }
 
-        .header-title span {
-            color: #86efac;
-        }
+        .header-title span { color: #86efac; }
 
         .nav-btn {
             background: transparent;
@@ -63,13 +57,7 @@
             font-size: 14px;
         }
 
-        .nav-btn:hover {
-            background: #163d2d;
-        }
-
-        .right-btn {
-            justify-self: end;
-        }
+        .right-btn { justify-self: end; }
 
         .chat-box {
             flex: 1;
@@ -119,23 +107,15 @@
             font-size: 14px;
         }
 
-        .quick-btn:hover {
-            background: #163d2d;
-        }
-
         .message-row {
             display: flex;
             width: 100%;
             margin-bottom: 24px;
         }
 
-        .user-row {
-            justify-content: flex-end;
-        }
+        .user-row { justify-content: flex-end; }
 
-        .bot-row {
-            justify-content: flex-start;
-        }
+        .bot-row { justify-content: flex-start; }
 
         .user-message {
             max-width: 70%;
@@ -161,6 +141,32 @@
         .typing {
             color: #a7b5af;
             font-style: italic;
+        }
+
+        .legal-section {
+            border-top: 1px solid #3b5f4e;
+            padding-top: 14px;
+            margin-top: 14px;
+        }
+
+        .legal-section:first-child {
+            border-top: none;
+            padding-top: 0;
+            margin-top: 0;
+        }
+
+        .legal-title {
+            color: #86efac;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+        .important-box {
+            border-left: 4px solid #86efac;
+            padding-left: 12px;
+            margin: 10px 0;
+            background: rgba(134, 239, 172, 0.06);
         }
 
         .input-area {
@@ -195,9 +201,7 @@
             padding: 13px 14px;
         }
 
-        input::placeholder {
-            color: #a7b5af;
-        }
+        input::placeholder { color: #a7b5af; }
 
         .send-btn {
             width: 42px;
@@ -226,30 +230,20 @@
                 padding: 0 8px;
             }
 
-            .header-title {
-                font-size: 18px;
-            }
+            .header-title { font-size: 18px; }
 
             .nav-btn {
                 font-size: 12px;
                 padding: 7px 8px;
             }
 
-            .chat-box {
-                padding: 18px 16px;
-            }
+            .chat-box { padding: 18px 16px; }
 
-            .welcome {
-                margin-top: 42px;
-            }
+            .welcome { margin-top: 42px; }
 
-            .welcome h1 {
-                font-size: 25px;
-            }
+            .welcome h1 { font-size: 25px; }
 
-            .welcome p {
-                font-size: 14px;
-            }
+            .welcome p { font-size: 14px; }
 
             .quick-actions {
                 grid-template-columns: 1fr;
@@ -278,9 +272,7 @@
                 padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
             }
 
-            .footer-note {
-                display: none;
-            }
+            .footer-note { display: none; }
         }
     </style>
 </head>
@@ -345,6 +337,42 @@ input.addEventListener("keydown", function(event) {
         sendMessage();
     }
 });
+
+function formatLegalReply(text) {
+    let safeText = text
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+    let sections = safeText.split("---SECTION---");
+
+    return sections.map(section => {
+        let cleanSection = section.trim();
+        if (!cleanSection) return "";
+
+        let lines = cleanSection.split("\n");
+        let title = lines[0] || "";
+        let body = lines.slice(1).join("\n").trim();
+
+        title = title.replace("###", "").trim();
+
+        body = body
+            .replace(/⚠️ VERY IMPORTANT:/g, "<div class='important-box'>⚠️ <b>VERY IMPORTANT:</b>")
+            .replace(/⚠️/g, "<div class='important-box'>⚠️")
+            .replace(/✅/g, "<div class='important-box'>✅")
+            .replace(/📄/g, "<div class='important-box'>📄")
+            .replace(/❌/g, "<div class='important-box'>❌")
+            .replace(/👨‍⚖️/g, "<div class='important-box'>👨‍⚖️");
+
+        body = body.replace(/\n/g, "<br>");
+
+        return `
+            <div class="legal-section">
+                <div class="legal-title">${title}</div>
+                <div>${body}</div>
+            </div>
+        `;
+    }).join("");
+}
 
 function homeScreen() {
     chatInner.innerHTML = `
@@ -448,7 +476,7 @@ async function sendMessage() {
 
         chatInner.innerHTML += `
             <div class="message-row bot-row">
-                <div class="bot-message">${data.reply}</div>
+                <div class="bot-message">${formatLegalReply(data.reply)}</div>
             </div>
         `;
 
