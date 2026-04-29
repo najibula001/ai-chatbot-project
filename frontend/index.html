@@ -2,13 +2,16 @@
 <html>
 <head>
     <title>AI Chatbot</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         html, body {
             margin: 0;
+            width: 100%;
             height: 100%;
             overflow: hidden;
             font-family: Arial, sans-serif;
@@ -17,36 +20,62 @@
         }
 
         body {
-            display: flex;
-            flex-direction: column;
             height: 100dvh;
         }
 
+        .app {
+            width: 100%;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
         .header {
-            height: 55px;
-            padding: 15px;
+            height: 56px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #222;
             font-size: 20px;
             font-weight: bold;
-            border-bottom: 1px solid #222;
-            flex-shrink: 0;
+            background: #000;
         }
 
         .chat-box {
             flex: 1;
             overflow-y: auto;
-            padding: 18px;
+            padding: 24px 16px;
+            min-height: 0;
+        }
+
+        .chat-inner {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
         }
 
         .welcome {
             text-align: center;
-            margin-top: 80px;
+            margin-top: 100px;
             color: #ddd;
+        }
+
+        .welcome h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #aaa;
+            font-size: 16px;
         }
 
         .message-row {
             display: flex;
             width: 100%;
-            margin-bottom: 18px;
+            margin-bottom: 24px;
         }
 
         .user-row {
@@ -58,11 +87,11 @@
         }
 
         .user-message {
+            max-width: 70%;
             background: #2f2f2f;
             color: white;
-            padding: 13px 17px;
-            border-radius: 22px;
-            max-width: 78%;
+            padding: 13px 18px;
+            border-radius: 24px;
             font-size: 16px;
             line-height: 1.5;
             white-space: pre-wrap;
@@ -70,10 +99,10 @@
         }
 
         .bot-message {
+            max-width: 80%;
             color: white;
-            max-width: 88%;
             font-size: 16px;
-            line-height: 1.6;
+            line-height: 1.7;
             white-space: pre-wrap;
             word-wrap: break-word;
         }
@@ -84,12 +113,18 @@
         }
 
         .input-area {
-            padding: 10px;
-            background: #000;
             flex-shrink: 0;
+            padding: 12px 16px 18px;
+            background: #000;
+        }
+
+        .input-inner {
+            max-width: 850px;
+            margin: 0 auto;
         }
 
         .input-box {
+            width: 100%;
             display: flex;
             align-items: center;
             background: #2f2f2f;
@@ -105,14 +140,14 @@
             background: transparent;
             color: white;
             font-size: 16px;
-            padding: 13px;
+            padding: 13px 14px;
         }
 
         input::placeholder {
             color: #aaa;
         }
 
-        button {
+        .send-btn {
             width: 42px;
             height: 42px;
             border-radius: 50%;
@@ -121,17 +156,77 @@
             color: black;
             font-size: 22px;
             font-weight: bold;
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
-        @media (min-width: 769px) {
-            .chat-box, .input-area {
-                max-width: 850px;
-                width: 100%;
-                margin: 0 auto;
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: 50px;
+                justify-content: flex-start;
+                padding-left: 16px;
+                font-size: 20px;
             }
 
-            .header {
-                text-align: center;
+            .chat-box {
+                padding: 18px 16px;
+            }
+
+            .welcome {
+                margin-top: 80px;
+            }
+
+            .welcome h1 {
+                font-size: 26px;
+            }
+
+            .welcome p {
+                font-size: 14px;
+            }
+
+            .message-row {
+                margin-bottom: 22px;
+            }
+
+            .user-message {
+                max-width: 82%;
+                font-size: 16px;
+                padding: 13px 17px;
+                border-radius: 22px;
+            }
+
+            .bot-message {
+                max-width: 92%;
+                font-size: 16px;
+            }
+
+            .input-area {
+                padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+            }
+
+            .input-box {
+                border-radius: 26px;
+            }
+
+            input {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .send-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .footer-note {
+                display: none;
             }
         }
     </style>
@@ -139,25 +234,35 @@
 
 <body>
 
-<div class="header">AI Chatbot</div>
+<div class="app">
 
-<div id="chatBox" class="chat-box">
-    <div class="welcome" id="welcomeBox">
-        <h1>How can I help you today?</h1>
-        <p>Ask anything and get an AI-generated response.</p>
-    </div>
-</div>
+    <div class="header">AI Chatbot</div>
 
-<div class="input-area">
-    <div class="input-box">
-        <input type="text" id="userInput" placeholder="Message AI Chatbot..." />
-        <button id="sendBtn">↑</button>
+    <div id="chatBox" class="chat-box">
+        <div class="chat-inner" id="chatInner">
+            <div class="welcome" id="welcomeBox">
+                <h1>How can I help you today?</h1>
+                <p>Ask anything and get an AI-generated response.</p>
+            </div>
+        </div>
     </div>
+
+    <div class="input-area">
+        <div class="input-inner">
+            <div class="input-box">
+                <input type="text" id="userInput" placeholder="Message AI Chatbot..." />
+                <button class="send-btn" id="sendBtn">↑</button>
+            </div>
+            <div class="footer-note">AI Chatbot may generate incorrect information. Verify important answers.</div>
+        </div>
+    </div>
+
 </div>
 
 <script>
 const input = document.getElementById("userInput");
 const chatBox = document.getElementById("chatBox");
+const chatInner = document.getElementById("chatInner");
 const sendBtn = document.getElementById("sendBtn");
 
 sendBtn.addEventListener("pointerdown", function(event) {
@@ -194,11 +299,12 @@ function keepKeyboardOpen() {
 
 async function sendMessage() {
     const message = input.value.trim();
+
     if (message === "") return;
 
     removeWelcome();
 
-    chatBox.innerHTML += `
+    chatInner.innerHTML += `
         <div class="message-row user-row">
             <div class="user-message">${message}</div>
         </div>
@@ -209,7 +315,7 @@ async function sendMessage() {
 
     const typingId = "typing-" + Date.now();
 
-    chatBox.innerHTML += `
+    chatInner.innerHTML += `
         <div class="message-row bot-row" id="${typingId}">
             <div class="bot-message typing">Thinking...</div>
         </div>
@@ -230,7 +336,7 @@ async function sendMessage() {
 
         document.getElementById(typingId)?.remove();
 
-        chatBox.innerHTML += `
+        chatInner.innerHTML += `
             <div class="message-row bot-row">
                 <div class="bot-message">${data.reply}</div>
             </div>
@@ -242,7 +348,7 @@ async function sendMessage() {
     } catch (error) {
         document.getElementById(typingId)?.remove();
 
-        chatBox.innerHTML += `
+        chatInner.innerHTML += `
             <div class="message-row bot-row">
                 <div class="bot-message">Error connecting to server</div>
             </div>
